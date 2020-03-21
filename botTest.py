@@ -5,36 +5,25 @@ client = commands.Bot(command_prefix = 'MC')
 
 
 @client.command()
-async def test(ctx):
-    await ctx.send('This is a test')
+async def setIp(ctx,arg):
+
+    isAdmin = ctx.message.author.guild_permissions.administrator
+    
+    if(isAdmin):
+        ip = arg
+        await ctx.send(ip)
+    else:
+        await ctx.send('You are not admin')
 
 @client.command()
-async def setIp(ctx,arg):
-    await ctx.send(arg)
+async def setPass(ctx,arg):
 
-@client.event
-async def on_message(msg):
-    if(msg.author == discord.User.bot ):
-        return
+    isAdmin = ctx.message.author.guild_permissions.administrator
     
-    #True if messages sender has admin permissions
-    isAdmin = msg.author.guild_permissions.administrator
-
-    message = msg.content
-
-    isIp = message.startswith('MCIP')
-    isPass = message.startswith('MCPASS')
-
     if(isAdmin):
-        if(isIp):
-            serverIp = message.strip('MCIP')
-            await msg.channel.send('Server IP = '+serverIp)
-
-        if(isPass):
-            rconPass = message.strip('MCPASS')
-            await msg.channel.send('RCON pass = '+ rconPass)
-
-            
-        
+        passWord = arg
+        await ctx.send(passWord)
+    else:
+        await ctx.send('You are not admin')    
 
 client.run('')
